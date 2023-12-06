@@ -7,7 +7,7 @@ print("\033[92mInit...\033[0m")
 # Paramètres
 input_directory = os.getcwd()
 gif_fps = 10
-watermark = 'www.wiki-stars.com'
+watermark = 'your watermark'
 fontsize = 14
 target_dimension = 512
 quality = 50
@@ -48,5 +48,3 @@ for filename in os.listdir(input_directory):
 
 
 print("\033[92mToutes les conversions sont terminées.\033[0m")
-#print("\033[91mCeci est du texte en rouge.\033[0m")
-
