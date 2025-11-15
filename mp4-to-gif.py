@@ -1,7 +1,7 @@
 import os
 import subprocess
 import shutil
-import time  # Ajout pour le chronomètre
+import time
 
 print("\033[92mInit...\033[0m")
 
@@ -16,7 +16,6 @@ temp_image_dir = "temp_images_mp4"
 
 try:
 
-    # --- VOTRE FONCTION (INCHANGÉE, LAISSÉE ICI PAR SÉCURITÉ) ---
     def convert_video_to_gif(input_file_path, output_file_path, gif_fps=gif_fps, watermark_fontsize=watermark_fontsize, output_dimension_max=output_dimension_max, output_quality=output_quality):
         
         print(f"  Création du repertoire temporaire...")
@@ -36,13 +35,10 @@ try:
 
         print(f"  Suppression du repertoire temporaire...")
         shutil.rmtree(temp_image_dir)
-    # --- FIN DE VOTRE FONCTION ---
 
 
-    # --- NOUVELLE FONCTION AVEC CARRIAGE RETURN (CR) ---
     def convert_video_to_gif_cr(input_file_path, output_file_path, gif_fps=gif_fps, watermark_fontsize=watermark_fontsize, output_dimension_max=output_dimension_max, output_quality=output_quality):
         
-        # Req 2: Barre de progression pour les 6 étapes
         progress_bar = [
             "[X_____]",
             "[XX____]",
@@ -70,10 +66,7 @@ try:
 
         print(f"  {progress_bar[5]} Suppression du repertoire temporaire...".ljust(70), end='\r')
         shutil.rmtree(temp_image_dir)
-    # --- FIN DE LA NOUVELLE FONCTION ---
 
-
-    # --- NOUVELLE LOGIQUE : Pré-filtrage des fichiers ---
     all_mp4_files = [filename for filename in os.listdir(input_directory) if filename.endswith(".mp4")]
     files_to_process = []
     
@@ -96,28 +89,26 @@ try:
     # Démarrer le chronomètre global
     start_time = time.time()
 
-    # --- BOUCLE PRINCIPALE (modifiée pour utiliser la liste pré-filtrée) ---
     for i, filename in enumerate(files_to_process, start=1):
         input_file_path = os.path.join(input_directory, filename)
         output_file_path = os.path.join(input_directory, f"{os.path.splitext(filename)[0]}.gif")
 
         # La vérification d'existence est déjà faite, on convertit directement
-        # Ligne 1 : (Req 1: Titre blanc, nom de fichier vert)
         print(f" [{i}/{total_files}] Début de conversion de \033[92m{filename}\033[0m")
         
-        # Démarrer le chronomètre pour CETTE étape (Req 3)
+        # Démarrer le chronomètre pour CETTE étape
         step_start_time = time.time()
         
-        # Ligne 2 (dynamique) : Appel de la fonction qui va se mettre à jour sur place (Req 2)
+        # Ligne 2 (dynamique) : Appel de la fonction qui va se mettre à jour sur place
         convert_video_to_gif_cr(input_file_path, output_file_path, gif_fps, watermark_fontsize, output_dimension_max, output_quality)
         
-        # Calculer le temps de CETTE étape (Req 3)
+        # Calculer le temps de CETTE étape
         step_elapsed_sec = int(time.time() - step_start_time)
         
-        # Ligne 2 (finale) : (Req 3 & 5: "Terminé en %s" en blanc)
+        # Ligne 2 (finale)
         print(f"  [XXXXXX] Terminé en {step_elapsed_sec}s".ljust(70))
         
-        # --- NOUVEAU : Calcul et affichage de l'estimation ---
+        # --- Calcul et affichage de l'estimation ---
         current_time = time.time()
         elapsed_time = current_time - start_time  # Temps écoulé total
         avg_time_per_file = elapsed_time / i       # Temps moyen par fichier
@@ -132,11 +123,10 @@ try:
         etr_min = int(etr_seconds // 60)
         etr_sec = int(etr_seconds % 60)
         
-        # Ligne 3 (Req 4 & 5: "Estim. restante: %sm %ss" (texte blanc, temps bleu))
+        # Ligne 3
         print(f"  Temps restant: \033[94m{etr_min}m {etr_sec}s\033[0m".ljust(70))
         
         print() # Ajoute une ligne vide pour séparer les traitements
-        # --- FIN - NOUVEAU ---
 
     print("\033[92mToutes les conversions sont terminées.\033[0m")
     print()
@@ -149,3 +139,4 @@ except Exception as e:
     print(f"\033[91m Une erreur s'est produite: {e} \033[0m")
     # Ajouter une pause pour voir l'erreur avant de fermer
     input("Appuyez sur Entrée pour fermer la fenêtre...")
+
